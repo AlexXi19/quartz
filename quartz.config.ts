@@ -7,7 +7,9 @@ const config: QuartzConfig = {
     enableSPA: true,
     enablePopovers: true,
     analytics: {
-      provider: "plausible",
+      provider: "umami",
+      websiteId: "04c565eb-5456-44ab-9b5f-9dabe33941be",
+      host: "https://cloud.umami.is",
     },
     locale: "en-US",
     baseUrl: "notes.alexxi.dev",
