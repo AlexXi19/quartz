@@ -7,10 +7,7 @@ export const sharedPageComponents: SharedLayout = {
   header: [],
   afterBody: [],
   footer: Component.Footer({
-    links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
-    },
+    links: {},
   }),
 }
 
@@ -25,26 +22,44 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Search(),
-    Component.Darkmode(),
-    Component.DesktopOnly(Component.Explorer()),
+    Component.DesktopOnly(
+      Component.Explorer({
+        folderDefaultState: "open",
+        // First "Writing" or "Blog", then others
+        sortFn: (a, b) => {
+          if (a.name.includes("Writing") || a.name.includes("Blog")) return -1
+          if (b.name.includes("Writing") || b.name.includes("Blog")) return 1
+          return 0
+        },
+      }),
+    ),
   ],
   right: [
-    Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    Component.Search(),
+    Component.DesktopOnly(Component.Backlinks()),
+    Component.MobileOnly(
+      Component.Explorer({
+        folderDefaultState: "collapsed",
+        // First "Writing" or "Blog", then others
+        sortFn: (a, b) => {
+          if (a.name.includes("Writing") || a.name.includes("Blog")) return -1
+          if (b.name.includes("Writing") || b.name.includes("Blog")) return 1
+          return 0
+        },
+      }),
+    ),
   ],
 }
 
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  beforeBody: [Component.ArticleTitle()],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Search(),
     Component.Darkmode(),
-    Component.DesktopOnly(Component.Explorer()),
   ],
   right: [],
 }
